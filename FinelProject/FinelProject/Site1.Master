@@ -1,0 +1,336 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="FinelProject.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Formula News</title>
+    <link rel="icon" type="image/x-icon" href="favicon.jpg">
+    <style>
+        body
+        {
+            font-family: 'Formula1 Display';
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        h1
+        {
+            text-align: center;
+            color: red;
+        }
+        h2
+        {
+            text-align: center;
+
+        }
+        h4
+        {
+            transition: ease 0.5s;
+        }
+        a
+        {
+            text-decoration: none;
+            
+        }
+        input
+        {
+            border-radius: 15px;
+            font-family: 'Formula1 Display';
+            padding: 3px 15px;
+            margin : 5px 0;
+        }
+        select
+        {
+            font-family: 'Formula1 Display';
+            border-radius: 15px;
+        }
+        table
+        {
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar 
+        {
+            display: none
+        }
+.navbar {
+  background-color: <%=navbarbg%>; /* Black background */
+  width: 100%; /* Full width */
+  position: <%=navbarposition%>; /* Keep it fixed at the top */
+  top: 0; /* Align to the top of the viewport */
+  z-index: 10; /* Ensure it appears above other content */
+  text-align: center; /* Center-align table cells */
+  border-left: 20px; /* Add space between table cells */
+  border-right: 20px;
+  border-top: 10px;
+  border-bottom: 10px;
+  transition: ease 0.3s;
+}
+
+/* Ensure the table row spans full width */
+.navbar tr {
+  display: table; /* Make row behave like a table */
+  width: 100%; /* Full width */
+}
+
+/* Style the links in the table cells */
+.navbar td {
+  padding: 10px; /* Add some padding around links */
+}
+#myModal{
+    transition: ease-in-out 0.3s;
+}
+    </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+<%--        <h1 style="padding-left: 200px">Formula News</h1>--%>
+    <table class="navbar" align="center" style="text-align: center; border-radius: 0;">
+        <tr>
+            <td style="padding-right: 20px"><a href="home.aspx"><img src=<%=logo%> width="150"/></a></td>
+            <td style="padding-right: 20px"><h4 class="GoUp"><a href="home.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Home</a></h4></td>
+            <td style="padding-right: 20px"><h4 class="GoUp"><a href="teams.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Teams</a></h4></td>
+            <td><h4 class="GoUp"><a href="drivers.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Drivers</a></h4></td>
+            <td><h4 class="GoUp"><a href="Cc.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Constractors Championship</a></h4></td>
+            <td style="padding-right: 20px"><h4 class="GoUp"><a href="Dc.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Drivers Championship</a></h4></td>
+            <%if (Session["admin"] != null)
+                { %>
+            <td style="padding-right: 40px"><h4 class="GoUp"><a href="admin.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Admin</a></h4></td>
+            <%} %>
+            <%if (Session["user"] != null || Session["admin"] != null)
+            {%>
+            <td style="padding-right: 40px"><h4 class="GoUp"><a href="Information.aspx" onmouseover="DifColor(this)" onmouseout="OGcolor(this)">Information</a></h4></td>
+            <%}%>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <%if (Session["admin"] == null && Session["user"] == null)
+                {%>
+            <td style="padding-right: 20px"><a href="Login.aspx"><svg class="login-hover"  xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
+            <path fill="white" d="M12.006 14.75a3.612 3.612 0 0 1-3.658-3.4l-.3-2.606a3.943 3.943 0 0 1 .86-3.188 4 4 0 0 1 3.098-1.306A4 4 0 0 1 15.1 5.56a3.95 3.95 0 0 1 .858 3.206l-.292 2.588a3.614 3.614 0 0 1-3.66 3.396Zm0-9a2.53 2.53 0 0 0-1.961.792 2.482 2.482 0 0 0-.505 2.015l.3 2.628a2.172 2.172 0 0 0 4.338 0l.295-2.609a2.507 2.507 0 0 0-.5-2.034 2.539 2.539 0 0 0-1.967-.792Zm6.98 14.73a5.952 5.952 0 0 0-2.83-4.77.5.5 0 0 0-.7.1l-.31.34a.4.4 0 0 0 .1.69A4.855 4.855 0 0 1 17.3 19.5H6.706a4.913 4.913 0 0 1 2.05-2.66.4.4 0 0 0 .11-.69l-.31-.34a.5.5 0 0 0-.7-.1 5.952 5.952 0 0 0-2.83 4.77.5.5 0 0 0 .5.52h12.96a.5.5 0 0 0 .5-.52Z"></path>
+            </svg></a></td>
+            <% }%>
+            <%if (Session["user"] != null && Session["admin"] == null)
+                {%>
+                    
+                        <td>
+             <button id="openModalCustom" style="background: none; border: none; cursor: pointer;">
+                <img src=<%=pfp %> height="45" style="border-radius: 50px; margin-right:20px" />
+                </button>
+             </td>
+                <%} %>
+        </tr>
+    </table>
+
+<div id="myModal" style="display: none; position: fixed; width: 200px; background-color: #181414; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000; padding: 20px; border-radius: 10px;">
+    <table>
+        <tr>
+              <%if (Session["user"] != null && Session["admin"] == null)
+                {
+                    if (pfp == "")
+                    { %>
+                <td>
+                <img src="profile.png" height="45" style="border-radius: 50px; margin-right:20px" />
+                </td>
+            <%}
+                else if (pfp != "")
+                {%>
+                <td>
+                <img src=<%=pfp %> height="45" style="border-radius: 50px; margin-right:20px" />
+                </td>
+            <%}
+                } %>
+            <td><h4 style="color:white;"><%=firstname %> <%=lastname %></h4></td>
+        </tr>
+        <tr>
+            <td><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
+            <path fill="white" d="M12.006 14.75a3.612 3.612 0 0 1-3.658-3.4l-.3-2.606a3.943 3.943 0 0 1 .86-3.188 4 4 0 0 1 3.098-1.306A4 4 0 0 1 15.1 5.56a3.95 3.95 0 0 1 .858 3.206l-.292 2.588a3.614 3.614 0 0 1-3.66 3.396Zm0-9a2.53 2.53 0 0 0-1.961.792 2.482 2.482 0 0 0-.505 2.015l.3 2.628a2.172 2.172 0 0 0 4.338 0l.295-2.609a2.507 2.507 0 0 0-.5-2.034 2.539 2.539 0 0 0-1.967-.792Zm6.98 14.73a5.952 5.952 0 0 0-2.83-4.77.5.5 0 0 0-.7.1l-.31.34a.4.4 0 0 0 .1.69A4.855 4.855 0 0 1 17.3 19.5H6.706a4.913 4.913 0 0 1 2.05-2.66.4.4 0 0 0 .11-.69l-.31-.34a.5.5 0 0 0-.7-.1 5.952 5.952 0 0 0-2.83 4.77.5.5 0 0 0 .5.52h12.96a.5.5 0 0 0 .5-.52Z"></path>
+            </svg></td>
+            <td style="transform:translateX(-25px)"><a href="profile.aspx" style="color: white"><h4>Profile</h4></a></td>
+        </tr>
+        <tr>
+            <td style="transform: translateX(+60px) translateY(+20px)"><a href="Logout.aspx" style="color: white"><h4>Sign Out</h4></a></td>
+        </tr>
+    </table>   
+</div>
+
+    <script>
+        const CurrentPage = window.location.href;
+        function DifColor(x) {
+            if (CurrentPage == "http://localhost:57716/Haas.aspx" || CurrentPage == "http://localhost:57716/EstebanOcon.aspx" || CurrentPage == "http://localhost:57716/OliverBearman.aspx") {
+                x.style.color = "firebrick";
+            }
+            else if (CurrentPage == "http://localhost:57716/RB.aspx" || CurrentPage == "http://localhost:57716/YukiTsunoda.aspx" || CurrentPage == "http://localhost:57716/LiamLawson.aspx") {
+                x.style.color = "grey";
+            }
+            else if (CurrentPage == "http://localhost:57716/Mercedes.aspx" || CurrentPage == "http://localhost:57716/GeorgeRussell.aspx")
+            {
+                x.style.color = "#21726A";
+            }
+            else if (CurrentPage == "http://localhost:57716/AstonMartin.aspx" || CurrentPage == "http://localhost:57716/FernandoAlonso.aspx" || CurrentPage == "http://localhost:57716/LanceStroll.aspx") {
+                x.style.color = "#169C43";
+            }
+            else if (CurrentPage == "http://localhost:57716/Alpine.aspx" || CurrentPage == "http://localhost:57716/PierrGasly.aspx" || CurrentPage == "http://localhost:57716/JackDoohan.aspx") {
+                x.style.color = "#7D2548";
+            }
+            else if (CurrentPage == "http://localhost:57716/KickSauber.aspx" || CurrentPage == "http://localhost:57716/NicoHulkenberg.aspx") { 
+                x.style.color = "#1A3E13";
+            }
+            else if (CurrentPage == "http://localhost:57716/Williams.aspx" || CurrentPage == "http://localhost:57716/CarlosSainz.aspx" || CurrentPage == "http://localhost:57716/AlexAlbon.aspx") {
+                x.style.color = "grey";
+            }
+            else if (CurrentPage == "http://localhost:57716/McLaren.aspx" || CurrentPage == "http://localhost:57716/LandoNorris.aspx" || CurrentPage == "http://localhost:57716/OscarPiastri.aspx") {
+                x.style.color = "white";
+            }
+            else if (CurrentPage == "http://localhost:57716/Ferrari.aspx" || CurrentPage == "http://localhost:57716/CharlesLeclerc.aspx" || CurrentPage == "http://localhost:57716/LewisHamilton.aspx") {
+                x.style.color = "firebrick";
+            }
+            else {
+                x.style.color = "firebrick";
+            }
+        }
+        function OGcolor(x) {
+            if (CurrentPage == "http://localhost:57716/Haas.aspx" || CurrentPage == "http://localhost:57716/EstebanOcon.aspx" || CurrentPage == "http://localhost:57716/OliverBearman.aspx") {
+                x.style.color = "white";
+            }
+            else if (CurrentPage == "http://localhost:57716/RB.aspx" || CurrentPage == "http://localhost:57716/YukiTsunoda.aspx" || CurrentPage == "http://localhost:57716/LiamLawson.aspx") {
+                x.style.color = "white";
+            }
+            else if (CurrentPage == "http://localhost:57716/Mercedes.aspx" || CurrentPage == "http://localhost:57716/GeorgeRussell.aspx") {
+                x.style.color = "Turquoise";
+            }
+            else if (CurrentPage == "http://localhost:57716/AstonMartin.aspx" || CurrentPage == "http://localhost:57716/FernandoAlonso.aspx" || CurrentPage == "http://localhost:57716/LanceStroll.aspx") {
+                x.style.color = "white";
+            }
+            else if (CurrentPage == "http://localhost:57716/Alpine.aspx" || CurrentPage == "http://localhost:57716/PierrGasly.aspx" || CurrentPage == "http://localhost:57716/JackDoohan.aspx") {
+                x.style.color = "black";
+            }
+            else if (CurrentPage == "http://localhost:57716/KickSauber.aspx" || CurrentPage == "http://localhost:57716/NicoHulkenberg.aspx") {
+                x.style.color = "black";
+            }
+            else if (CurrentPage == "http://localhost:57716/Williams.aspx" || CurrentPage == "http://localhost:57716/CarlosSainz.aspx" || CurrentPage == "http://localhost:57716/AlexAlbon.aspx") {
+                x.style.color = "white";
+            }
+            else if (CurrentPage == "http://localhost:57716/McLaren.aspx" || CurrentPage == "http://localhost:57716/LandoNorris.aspx" || CurrentPage == "http://localhost:57716/OscarPiastri.aspx") {
+                x.style.color = "black";
+            }
+            else if (CurrentPage == "http://localhost:57716/Ferrari.aspx" || CurrentPage == "http://localhost:57716/CharlesLeclerc.aspx" || CurrentPage == "http://localhost:57716/LewisHamilton.aspx") {
+                x.style.color = "white";
+            }
+            else {
+            x.style.color = "red";
+            }
+        }
+
+        const h3 = document.querySelectorAll(".GoUp").forEach(h3 => {
+            h3.addEventListener("mouseover", () => {
+                h3.style.transform = "translateY(-4px)";
+            });
+            h3.addEventListener("mouseout", () => {
+                h3.style.transform = "translate(0)";
+            });
+        });
+
+        let lastScrollTop = 0; // Variable to track the last scroll position
+        const navbar = document.querySelector(".navbar");
+        const hideThreshold = 200; // Height at which the navbar will disappear
+        const showThreshold = 150; // Height at which the navbar will reappear
+
+
+
+
+        const openModalCustom = document.getElementById("openModalCustom");
+        const modal = document.getElementById("myModal");
+
+        if (CurrentPage == "http://localhost:57716/home.aspx" || CurrentPage == "http://localhost:57716/teams.aspx" || CurrentPage == "http://localhost:57716/drivers.aspx" || CurrentPage == "http://localhost:57716/Cc.aspx" || CurrentPage == "http://localhost:57716/Dc.aspx" || CurrentPage == "http://localhost:57716/Login.aspx" || CurrentPage == "http://localhost:57716/register.aspx" || CurrentPage == "http://localhost:57716/profile.aspx" || CurrentPage == "http://localhost:57716/Information.aspx" || CurrentPage == "http://localhost:57716/admin.aspx") {
+
+            // Set initial navbar position and transition for smooth movement
+            navbar.style.transition = "transform 0.3s ease-in-out"; // Apply smooth transition for transformation
+
+            document.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY; // Current scroll position
+                const maxScroll = 500; // Adjust the range for the transparency effect
+                const opacity = Math.max(0.5, 1 - scrollTop / maxScroll); // Calculate new opacity
+
+                // Update navbar background opacity
+                navbar.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
+
+                // Check the scroll direction
+                if (scrollTop > lastScrollTop && scrollTop > hideThreshold) {
+                    // Scrolling down and passed the threshold
+                    navbar.style.transform = "translateY(-100%)"; // Pull the navbar up out of view
+                    modal.style.transform = "translateY(-80px)";
+                } else if (scrollTop < lastScrollTop && scrollTop > showThreshold) {
+                    // Scrolling up and above the show threshold
+                    navbar.style.transform = "translateY(0)"; // Bring the navbar back into view
+                    modal.style.transform = "translate(0)";
+                }
+
+                // Update last scroll position
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative scroll position
+            });
+        }
+
+
+        // Open the modal when the button is clicked
+        openModalCustom.addEventListener("click", function (e) {
+            // Stop the event from bubbling up
+            e.stopPropagation();
+
+            // Get the button's position
+            const rect = openModalCustom.getBoundingClientRect();
+
+            // Navbar is visible
+            modal.style.left = `${rect.left - 140}px`; // Adjust horizontal position
+            modal.style.top = `${rect.bottom + 30}px`; // Position below the button
+            
+
+            // Show the modal
+            modal.style.display = "block";
+        });
+
+        if (modal.style.display === "block") {
+            // Check if the navbar is hidden using its computed transform property
+            const navbarHidden = window.getComputedStyle(navbar).transform.includes("-100");
+
+            if (navbarHidden) {
+                // Navbar is hidden (translateY(-100%))
+                modal.style.top = "10px"; // Move the modal up (stick to the top with an offset)
+            } else {
+                // Navbar is visible
+                modal.style.top = `${rect.bottom + 30}px`; // Position below the button
+            }
+
+            // Adjust horizontal position in both cases
+            modal.style.left = `${rect.left - 140}px`;
+        }
+
+        // Close modal if the user clicks anywhere outside it
+        window.addEventListener("click", function (e) {
+            // Check if the modal is visible
+            if (window.getComputedStyle(modal).display === "block") {
+                // Check if the click is outside the modal
+                if (!modal.contains(e.target)) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+
+
+
+
+
+    </script>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        
+</body>
+</html>
